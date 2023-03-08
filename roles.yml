@@ -1,0 +1,24 @@
+---
+- name: setup haproxy
+  hosts: balancers
+  vars:
+      haproxy_backend_servers:
+                  - name: app1
+                    address: node3.example.com:80
+                  - name: app2
+                    address: node4.example.com:80
+  roles:
+         - balancer
+
+- name: setup phpinfo
+  hosts: webservers
+  roles:
+         - phpinfo
+  post_tasks:
+          - name: create hello.php
+            template:
+                    src: hello.php.j2
+                    dest: /var/www/html/hello.php
+            notify:
+                    - restart webserver
+...

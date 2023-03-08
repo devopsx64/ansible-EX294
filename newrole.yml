@@ -1,0 +1,6 @@
+---
+- name:
+  hosts: webservers
+  roles:
+          - apache
+...
